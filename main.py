@@ -59,7 +59,7 @@ if __name__ == "__main__":
         print("Cammino:", it["path"])
         print("Delta:", it["delta"])
         print("\\\\")
-        print(tikz_graph(G1, it["path"]))
+        print(tikz_graph(G1, it["path"], it["flow"]))
     print("\\end{document}\n")
 
     print("\n=== FORD–FULKERSON (ETICHETTAMENTO) ===")
@@ -73,5 +73,5 @@ if __name__ == "__main__":
         print("Cammino:", it["path"])
         print("Delta:", it["delta"])
         print("\\\\")
-        print(tikz_graph_labels(G1, it["labels"]))
+        print(tikz_graph_labels(G1, it["labels"], it["flow"]))
     print("\\end{document}\n")
