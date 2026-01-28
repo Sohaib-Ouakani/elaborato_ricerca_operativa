@@ -7,16 +7,28 @@ def tikz_graph(G, highlight_path=None, flows=None):
     if highlight_path:
         highlight = set(zip(highlight_path[:-1], highlight_path[1:]))
 
+    # positions = {
+    #     2: (2, 2),
+    #     4: (2, -2),
+    #     5: (4, -2),
+    #     3: (4, 2),
+    #     6: (6, 0),
+    #     8: (6, 2),
+    #     7: (6, -2),
+    #     9: (8, 0),
+    # }
+
     positions = {
         1: (0, 0),
-        2: (2, 2),
-        4: (2, -2),
-        5: (4, -2),
-        3: (4, 2),
-        6: (6, 0),
-        8: (6, 2),
-        7: (6, -2),
-        9: (8, 0),
+        2: (1.5, 2),
+        3: (1.5, -2),
+        4: (3, 0),
+        5: (4.5, 2),
+        6: (4.5, -2),
+        7: (6, 0),
+        8: (7.5, 2),
+        9: (7.5, -2),
+        10: (9, 0),
     }
 
     s = "\\begin{tikzpicture}[>=Stealth]\n"
@@ -47,16 +59,29 @@ def tikz_graph_labels(G, labels=None, flows=None):
     - se labels è fornito: etichettamento dei nodi (pred, delta)
     - flows: opzionale, dizionario dei flussi da usare al posto di G.flow
     """
+
+    # positions = {
+    #     2: (2, 2),
+    #     4: (2, -2),
+    #     5: (4, -2),
+    #     3: (4, 2),
+    #     6: (6, 0),
+    #     8: (6, 2),
+    #     7: (6, -2),
+    #     9: (8, 0),
+    # }
+
     positions = {
         1: (0, 0),
-        2: (2, 2),
-        4: (2, -2),
-        5: (4, -2),
-        3: (4, 2),
-        6: (6, 0),
-        8: (6, 2),
-        7: (6, -2),
-        9: (8, 0),
+        2: (1.5, 2),
+        3: (1.5, -2),
+        4: (3, 0),
+        5: (4.5, 2),
+        6: (4.5, -2),
+        7: (6, 0),
+        8: (7.5, 2),
+        9: (7.5, -2),
+        10: (9, 0),
     }
 
     s = "\\begin{tikzpicture}[>=Stealth]\n"
