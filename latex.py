@@ -1,15 +1,25 @@
 def tikz_graph(G, highlight_path=None):
-    """
-    Restituisce una stringa LaTeX/TikZ del grafo
-    """
     highlight = set()
     if highlight_path:
         highlight = set(zip(highlight_path[:-1], highlight_path[1:]))
 
-    s = "\\begin{tikzpicture}[>=stealth, node distance=2cm]\n"
+    # layout manuale (puoi adattarlo a ogni esempio)
+    positions = {
+        1: (0, 0),
+        2: (2, -1),
+        4: (2, 1),
+        5: (3, 1),
+        3: (3, -1),
+        6: (4, 0),
+        8: (4, -1),
+        7: (4, 1),
+        9: (5, 0),
+    }
 
-    for i, node in enumerate(sorted(G.nodes)):
-        s += f"\\node ({node}) at ({i*2},0) {{{node}}};\n"
+    s = "\\begin{tikzpicture}[>=Stealth]\n"
+
+    for node, (x, y) in positions.items():
+        s += f"\\node ({node}) at ({x},{y}) {{{node}}};\n"
 
     for i in G.cap:
         for j in G.cap[i]:
