@@ -56,6 +56,13 @@ def ford_fulkerson_labeling(G, s, t):
             j = i
 
         iterations.append({
+            "labels": {
+                v: {
+                    "pred": pred[v],
+                    "delta": delta[v]
+                }
+                for v in pred
+            },
             "path": path,
             "delta": d,
             "flow": {i: dict(G.flow[i]) for i in G.flow}

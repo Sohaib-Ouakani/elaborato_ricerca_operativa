@@ -1,7 +1,7 @@
 from graph import Graph
 from ford_fulkerson.residual import ford_fulkerson_residual
 from ford_fulkerson.labeling import ford_fulkerson_labeling
-from latex import tikz_graph
+from latex import tikz_graph, tikz_graph_labels
 
 
 def build_example_graph():
@@ -31,6 +31,20 @@ def build_example_graph():
     G.add_edge(7, 9, 15)
     return G
 
+def latex_boilerplate():
+    print("""\\documentclass{article}
+    \\usepackage{graphicx} % Required for inserting images
+    \\usepackage{tikz}
+    \\usetikzlibrary{arrows.meta, positioning}
+
+    \\tikzset{every picture/.style={>=Stealth, x=1.6cm, y=1.2cm}}
+
+    \\title{ricerca_operativa}
+    \\author{}
+    \\date{January 2026}
+
+    \\begin{document}\n""")
+
 
 if __name__ == "__main__":
 
@@ -39,14 +53,25 @@ if __name__ == "__main__":
     value, iters = ford_fulkerson_residual(G1, 1, 9)
 
     print("Flusso massimo:", value)
+    latex_boilerplate()
     for k, it in enumerate(iters, 1):
         print(f"\nIterazione {k}")
         print("Cammino:", it["path"])
         print("Delta:", it["delta"])
+        print("\\\\")
         print(tikz_graph(G1, it["path"]))
+    print("\\end{document}\n")
 
     print("\n=== FORD–FULKERSON (ETICHETTAMENTO) ===")
     G2 = build_example_graph()
     value, iters = ford_fulkerson_labeling(G2, 1, 9)
 
     print("Flusso massimo:", value)
+    latex_boilerplate()
+    for k, it in enumerate(iters, 1):
+        print(f"\nIterazione {k}")
+        print("Cammino:", it["path"])
+        print("Delta:", it["delta"])
+        print("\\\\")
+        print(tikz_graph_labels(G1, it["labels"]))
+    print("\\end{document}\n")
