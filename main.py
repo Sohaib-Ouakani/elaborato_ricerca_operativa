@@ -50,9 +50,9 @@ if __name__ == "__main__":
 
     print("=== FORD–FULKERSON (GRAFO RESIDUO) ===")
     G1 = build_example_graph()
-    value, iters = ford_fulkerson_residual(G1, 1, 9)
+    value, iters, S, T = ford_fulkerson_residual(G1, 1, 9)
 
-    print("Flusso massimo:", value)
+    print("Flusso massimo:", value, "S: ", S, "T: ", T)
     latex_boilerplate()
     for k, it in enumerate(iters, 1):
         print(f"\nIterazione {k}")
@@ -64,9 +64,9 @@ if __name__ == "__main__":
 
     print("\n=== FORD–FULKERSON (ETICHETTAMENTO) ===")
     G2 = build_example_graph()
-    value, iters = ford_fulkerson_labeling(G2, 1, 9)
+    value, iters, S, T = ford_fulkerson_labeling(G2, 1, 9)
 
-    print("Flusso massimo:", value)
+    print("Flusso massimo:", value, "S: ", S, "T: ", T)
     latex_boilerplate()
     for k, it in enumerate(iters, 1):
         print(f"\nIterazione {k}")

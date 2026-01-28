@@ -47,6 +47,26 @@ def find_augmenting_path(R, s, t):
 
     return None, 0
 
+def min_cut_from_residual(R, s):
+    """
+    Restituisce i nodi nel taglio minimo secondo il grafo residuo R
+    S = nodi raggiungibili da s
+    T = nodi non raggiungibili da s
+    """
+    visited = set()
+    stack = [s]
+
+    while stack:
+        node = stack.pop()
+        visited.add(node)
+        for nxt in R[node]:
+            if nxt not in visited and R[node][nxt] > 0:
+                stack.append(nxt)
+
+    S = visited
+    T = set(R.keys()) - S
+    return S, T
+
 
 def ford_fulkerson_residual(G, s, t):
     """
@@ -71,10 +91,14 @@ def ford_fulkerson_residual(G, s, t):
 
         value += delta
 
+        # calcola taglio minimo residuo
+        R_after = build_residual_graph(G)
+        S, T = min_cut_from_residual(R_after, s)
+
         iterations.append({
             "path": path,
             "delta": delta,
             "flow": {i: dict(G.flow[i]) for i in G.flow}
         })
 
-    return value, iterations
+    return value, iterations, S, T

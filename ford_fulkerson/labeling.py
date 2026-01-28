@@ -1,3 +1,38 @@
+def min_cut_from_residual(G, s):
+    """
+    Calcola il taglio minimo (S,T) a partire dal grafo residuo costruito da G
+    S = nodi raggiungibili dalla sorgente
+    T = nodi non raggiungibili
+    """
+    from collections import defaultdict
+
+    # costruisco il grafo residuo
+    R = defaultdict(dict)
+    for i in G.cap:
+        for j in G.cap[i]:
+            u = G.cap[i][j]
+            x = G.flow[i][j]
+            # arco diretto
+            if u - x > 0:
+                R[i][j] = u - x
+            # arco inverso
+            if x > 0:
+                R[j][i] = x
+
+    # DFS per trovare nodi raggiungibili da s
+    visited = set()
+    stack = [s]
+    while stack:
+        node = stack.pop()
+        visited.add(node)
+        for nxt in R[node]:
+            if nxt not in visited and R[node][nxt] > 0:
+                stack.append(nxt)
+
+    S = visited
+    T = set(G.cap.keys()) - S
+    return S, T
+
 def ford_fulkerson_labeling(G, s, t):
     """
     Algoritmo di Ford–Fulkerson con etichettamento
@@ -55,6 +90,9 @@ def ford_fulkerson_labeling(G, s, t):
                 G.flow[j][i] -= d
             j = i
 
+        # calcolo taglio minimo residuo
+        S, T = min_cut_from_residual(G, s)
+
         iterations.append({
             "labels": {
                 v: {
@@ -68,4 +106,4 @@ def ford_fulkerson_labeling(G, s, t):
             "flow": {i: dict(G.flow[i]) for i in G.flow}
         })
 
-    return value, iterations
+    return value, iterations, S, T
