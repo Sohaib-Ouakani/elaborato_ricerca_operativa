@@ -6,7 +6,24 @@ from latex import tikz_graph, tikz_graph_labels
 
 def build_example_graph():
     """
-    Esempio semplice dal PDF
+    Costruisce un grafo di esempio per testare l'algoritmo di Ford-Fulkerson.
+
+    Questa funzione crea un grafo diretto con capacità sugli archi.
+    Il grafo è costruito chiamando ripetutamente add_edge per aggiungere
+    ogni arco con la sua capacità.
+
+    ESEMPI DISPONIBILI (commentati):
+    Sono presenti tre esempi di grafi commentati nel codice:
+
+    1. Example 1: piccolo grafo con 4 nodi
+    2. Esempio con 9 nodi (più complesso)
+    3. Esempio esame: grafo con 10 nodi (attualmente attivo)
+
+    Per cambiare esempio, basta decommentare il blocco desiderato
+    e commentare gli altri.
+
+    Ritorna:
+    - G: oggetto Graph contenente il grafo di esempio
     """
     G = Graph()
     # Example 1
@@ -54,6 +71,15 @@ def build_example_graph():
     return G
 
 def latex_boilerplate():
+    """
+    Stampa il preambolo di un documento LaTeX.
+
+    Questa funzione genera l'intestazione standard di un documento LaTeX
+    che include tutti i pacchetti necessari per visualizzare i grafici TikZ.
+
+    OUTPUT:
+    Stampa direttamente su stdout il codice LaTeX del preambolo.
+    """
     print("""\\documentclass{article}
     \\usepackage{graphicx} % Required for inserting images
     \\usepackage{tikz}
@@ -70,6 +96,9 @@ def latex_boilerplate():
 
 if __name__ == "__main__":
 
+    # ========================================================================
+    # PARTE 1: FORD-FULKERSON CON GRAFO RESIDUO
+    # ========================================================================
     print("=== FORD–FULKERSON (GRAFO RESIDUO) ===")
     G1 = build_example_graph()
     value, iters, S, T = ford_fulkerson_residual(G1, 1, 10)
@@ -84,6 +113,9 @@ if __name__ == "__main__":
         print(tikz_graph(G1, it["path"], it["flow"]))
     print("\\end{document}\n")
 
+    # ========================================================================
+    # PARTE 2: FORD-FULKERSON CON ETICHETTAMENTO
+    # ========================================================================
     print("\n=== FORD–FULKERSON (ETICHETTAMENTO) ===")
     G2 = build_example_graph()
     value, iters, S, T = ford_fulkerson_labeling(G2, 1, 10)

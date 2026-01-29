@@ -1,10 +1,27 @@
+from collections import defaultdict
+
 def min_cut_from_residual(G, s):
     """
-    Calcola il taglio minimo (S,T) a partire dal grafo residuo costruito da G
-    S = nodi raggiungibili dalla sorgente
-    T = nodi non raggiungibili
+    Calcola il taglio minimo (S,T) a partire dal grafo G e dal suo flusso corrente.
+
+    Questa funzione è simile a quella in residual.py, ma costruisce il grafo
+    residuo internamente invece di riceverlo come parametro.
+
+    Il TAGLIO MINIMO divide i nodi in due insiemi:
+    - S: nodi raggiungibili dalla sorgente s nel grafo residuo
+    - T: nodi non raggiungibili da s nel grafo residuo
+
+    Alla fine dell'algoritmo di Ford-Fulkerson, questo taglio ha capacità
+    uguale al flusso massimo (teorema del taglio minimo - flusso massimo).
+
+    Parametri:
+    - G: oggetto Graph con capacità e flussi
+    - s: nodo sorgente
+
+    Ritorna:
+    - S: set di nodi raggiungibili da s
+    - T: set di nodi non raggiungibili da s
     """
-    from collections import defaultdict
 
     # costruisco il grafo residuo
     R = defaultdict(dict)
@@ -35,7 +52,39 @@ def min_cut_from_residual(G, s):
 
 def ford_fulkerson_labeling(G, s, t):
     """
-    Algoritmo di Ford–Fulkerson con etichettamento
+    Algoritmo di Ford-Fulkerson per il FLUSSO MASSIMO usando il metodo dell'ETICHETTAMENTO.
+
+    Questa è una variante dell'algoritmo di Ford-Fulkerson che usa una tecnica
+    chiamata "etichettamento" (labeling) invece di costruire esplicitamente
+    il grafo residuo ad ogni iterazione.
+
+    METODO DELL'ETICHETTAMENTO:
+    Invece di costruire il grafo residuo, questa versione etichetta i nodi
+    durante la ricerca del cammino aumentante con due informazioni:
+
+    1. PRED (predecessore):
+       - pred[j] = i se j è raggiunto tramite l'arco diretto i→j
+       - pred[j] = -i se j è raggiunto tramite l'arco inverso j→i
+       - Il segno indica la direzione dell'arco utilizzato
+
+    2. DELTA (capacità residua):
+       - delta[j] = capacità residua minima dal nodo sorgente s al nodo j
+       - Questo è il massimo flusso che può attraversare il cammino fino a j
+
+    Questa tecnica permette di:
+    - Ricostruire il cammino aumentante risalendo i predecessori
+    - Conoscere subito quanto flusso possiamo inviare (il delta al pozzo t)
+    - Evitare di costruire esplicitamente il grafo residuo
+
+    Parametri:
+    - G: oggetto Graph con capacità e flussi
+    - s: nodo sorgente
+    - t: nodo pozzo
+
+    Ritorna:
+    - value: valore del flusso massimo
+    - iterations: lista di dettagli per ogni iterazione
+    - S, T: taglio minimo
     """
     value = 0
     iterations = []

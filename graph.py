@@ -13,6 +13,21 @@ class Graph:
         self.nodes = set()
 
     def add_edge(self, i, j, capacity):
+        """
+        Aggiunge un arco diretto dal nodo i al nodo j con una data capacità.
+
+        Parametri:
+        - i: nodo sorgente dell'arco
+        - j: nodo destinazione dell'arco
+        - capacity: capacità massima dell'arco (u_ij)
+
+        Questa funzione:
+        1. Crea l'arco diretto (i,j) con la capacità specificata
+        2. Inizializza il flusso a 0 (nessun flusso all'inizio)
+        3. Crea automaticamente l'arco inverso (j,i) se non esiste,
+           con capacità 0 (necessario per l'algoritmo di Ford-Fulkerson)
+        4. Aggiunge i nodi i e j al set dei nodi del grafo
+        """
         self.cap[i][j] = capacity
         self.flow[i][j] = 0
 

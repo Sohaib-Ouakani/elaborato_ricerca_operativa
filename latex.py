@@ -1,7 +1,26 @@
 def tikz_graph(G, highlight_path=None, flows=None):
     """
-    Disegna il grafo con TikZ.
-    - flows: opzionale, dizionario dei flussi da usare al posto di G.flow
+    Genera codice LaTeX/TikZ per disegnare il grafo con flussi e capacità.
+
+    Questa funzione crea una rappresentazione grafica del grafo usando TikZ,
+    una libreria LaTeX per disegnare grafici. Il risultato può essere incluso
+    in un documento LaTeX per visualizzare il grafo.
+
+    CARATTERISTICHE DELLA VISUALIZZAZIONE:
+    - Ogni nodo è disegnato con la sua etichetta (numero)
+    - Ogni arco mostra "flusso/capacità" (es. "3/5" = 3 unità di flusso su 5 di capacità)
+    - Gli archi del cammino aumentante corrente sono evidenziati in rosso
+    - Solo gli archi con capacità > 0 sono disegnati
+
+    Parametri:
+    - G: oggetto Graph con capacità (cap) e flussi (flow)
+    - highlight_path: lista di nodi che formano un cammino da evidenziare in rosso
+                      (opzionale, usato per mostrare il cammino aumentante)
+    - flows: dizionario alternativo di flussi da usare al posto di G.flow
+             (opzionale, utile per mostrare flussi di iterazioni precedenti)
+
+    Ritorna:
+    - s: stringa contenente il codice LaTeX/TikZ completo per disegnare il grafo
     """
     highlight = set()
     if highlight_path:
@@ -54,10 +73,34 @@ def tikz_graph(G, highlight_path=None, flows=None):
 
 def tikz_graph_labels(G, labels=None, flows=None):
     """
-    Disegna il grafo con TikZ mostrando:
-    - se labels è None: f/c sugli archi (versione classica)
-    - se labels è fornito: etichettamento dei nodi (pred, delta)
-    - flows: opzionale, dizionario dei flussi da usare al posto di G.flow
+    Genera codice LaTeX/TikZ per disegnare il grafo con etichettamento dei nodi.
+
+    Questa funzione è simile a tikz_graph, ma può mostrare informazioni aggiuntive
+    sui nodi quando viene usato il metodo dell'etichettamento.
+
+    DUE MODALITÀ DI VISUALIZZAZIONE:
+
+    1. Se labels è None (modalità classica):
+       - Mostra solo i numeri dei nodi
+       - Mostra "flusso/capacità" sugli archi
+       - Usato per visualizzare il grafo senza informazioni di etichettamento
+
+    2. Se labels è fornito (modalità etichettamento):
+       - Mostra il numero del nodo
+       - Sotto ogni nodo mostra (pred, delta) dove:
+         * pred = predecessore del nodo nel cammino aumentante
+         * delta = capacità residua dal sorgente a questo nodo
+       - Usato per visualizzare lo stato dell'algoritmo di etichettamento
+
+    Parametri:
+    - G: oggetto Graph con capacità e flussi
+    - labels: dizionario con informazioni di etichettamento per ogni nodo
+              labels[nodo] = {"pred": predecessore, "delta": capacità_residua}
+              None per visualizzazione classica
+    - flows: dizionario alternativo di flussi (opzionale)
+
+    Ritorna:
+    - s: stringa contenente il codice LaTeX/TikZ
     """
 
     # positions = {
