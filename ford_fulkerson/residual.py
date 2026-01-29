@@ -74,6 +74,8 @@ def ford_fulkerson_residual(G, s, t):
     """
     value = 0
     iterations = []
+    S = None
+    T = None
 
     while True:
         R = build_residual_graph(G)
@@ -91,14 +93,15 @@ def ford_fulkerson_residual(G, s, t):
 
         value += delta
 
-        # calcola taglio minimo residuo
-        R_after = build_residual_graph(G)
-        S, T = min_cut_from_residual(R_after, s)
 
         iterations.append({
             "path": path,
             "delta": delta,
             "flow": {i: dict(G.flow[i]) for i in G.flow}
         })
+
+    # calcola taglio minimo residuo
+    R_after = build_residual_graph(G)
+    S, T = min_cut_from_residual(R_after, s)
 
     return value, iterations, S, T

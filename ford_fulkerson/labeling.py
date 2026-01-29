@@ -39,6 +39,8 @@ def ford_fulkerson_labeling(G, s, t):
     """
     value = 0
     iterations = []
+    S = None
+    T = None
 
     while True:
         pred = {}
@@ -90,8 +92,6 @@ def ford_fulkerson_labeling(G, s, t):
                 G.flow[j][i] -= d
             j = i
 
-        # calcolo taglio minimo residuo
-        S, T = min_cut_from_residual(G, s)
 
         iterations.append({
             "labels": {
@@ -105,5 +105,7 @@ def ford_fulkerson_labeling(G, s, t):
             "delta": d,
             "flow": {i: dict(G.flow[i]) for i in G.flow}
         })
+    # calcolo taglio minimo residuo
+    S, T = min_cut_from_residual(G, s)
 
     return value, iterations, S, T
