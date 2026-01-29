@@ -69,24 +69,32 @@ def find_augmenting_path(R, s, t):
              (quanto flusso possiamo inviare lungo questo cammino)
              0 se non esiste un cammino
     """
+
+    # Stack per la DFS: ogni elemento è una tupla (nodo_corrente, cammino_finora, delta_minimo)
+    # Inizializza con la sorgente s
     stack = [(s, [s], float("inf"))]
     visited = set()
 
     while stack:
         node, path, delta = stack.pop()
 
+        # Se abbiamo raggiunto il pozzo t, abbiamo trovato un cammino aumentante
         if node == t:
             return path, delta
 
         visited.add(node)
 
+        # Esplora tutti i vicini del nodo corrente nel grafo residuo
         for nxt in R[node]:
             if nxt not in visited and R[node][nxt] > 0:
                 stack.append((
-                    nxt,
-                    path + [nxt],
+                    nxt,                            # Prossimo nodo da esplorare
+                    path + [nxt],                   # Cammino esteso con il nuovo nodo
                     min(delta, R[node][nxt])
                 ))
+                # Il delta viene aggiornato come minimo tra:
+                # - il delta del cammino fino a ora
+                # - la capacità residua dell'arco corrente
 
     return None, 0
 
@@ -119,11 +127,15 @@ def min_cut_from_residual(R, s):
     - T: set di nodi non raggiungibili da s (contiene t)
     """
     visited = set()
+
+    # Stack per la DFS, inizializzato con la sorgente
     stack = [s]
 
     while stack:
         node = stack.pop()
         visited.add(node)
+
+        # Esplora tutti i vicini del nodo corrente
         for nxt in R[node]:
             if nxt not in visited and R[node][nxt] > 0:
                 stack.append(nxt)
@@ -167,35 +179,52 @@ def ford_fulkerson_residual(G, s, t):
     - S: insieme di nodi nel taglio minimo (lato sorgente)
     - T: insieme di nodi nel taglio minimo (lato pozzo)
     """
+    # Inizializza il valore del flusso massimo a 0
     value = 0
+
+    # Lista per memorizzare i dettagli di ogni iterazione
     iterations = []
     S = None
     T = None
 
     while True:
+        # PASSO 1: Costruisci il grafo residuo basato sul flusso corrente
         R = build_residual_graph(G)
+
+        # PASSO 2: Cerca un cammino aumentante da s a t nel grafo residuo
         path, delta = find_augmenting_path(R, s, t)
 
+        # CONDIZIONE DI TERMINAZIONE:
+        # Se non esiste un cammino aumentante, l'algoritmo termina
+        # Il flusso corrente è il flusso massimo
         if path is None:
             break
 
-        # aggiorna flusso
+        # PASSO 3: Aggiorna il flusso lungo il cammino aumentante
+        # Itera su ogni arco (i,j) del cammino
         for i, j in zip(path[:-1], path[1:]):
+            # Verifica se (i,j) è un arco DIRETTO nel grafo originale
             if j in G.cap[i]:
+                # Aumenta il flusso sull'arco diretto di delta
                 G.flow[i][j] += delta
             else:
+                # usando l'arco INVERSO nel grafo residuo
+                # Riduci il flusso sull'arco (j,i) di delta
                 G.flow[j][i] -= delta
 
+        # PASSO 4: Aggiorna il valore totale del flusso
         value += delta
+        # Ogni iterazione aumenta il flusso di delta
 
-
+        # Salva i dettagli di questa iterazione
         iterations.append({
-            "path": path,
-            "delta": delta,
+            "path": path,       # Cammino aumentante usato
+            "delta": delta,     # Quanto flusso è stato aggiunto
+            # Copia del flusso corrente (per visualizzazione)
             "flow": {i: dict(G.flow[i]) for i in G.flow}
         })
 
-    # calcola taglio minimo residuo
+    # Calcola il taglio minimo
     R_after = build_residual_graph(G)
     S, T = min_cut_from_residual(R_after, s)
 

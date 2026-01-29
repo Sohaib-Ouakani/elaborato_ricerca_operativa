@@ -23,16 +23,22 @@ def min_cut_from_residual(G, s):
     - T: set di nodi non raggiungibili da s
     """
 
-    # costruisco il grafo residuo
+    # Costruisco il grafo residuo
     R = defaultdict(dict)
+
+    # Itera su tutti gli archi del grafo
     for i in G.cap:
         for j in G.cap[i]:
-            u = G.cap[i][j]
-            x = G.flow[i][j]
-            # arco diretto
+            u = G.cap[i][j]     # Capacità dell'arco i→j
+            x = G.flow[i][j]    # Flusso corrente sull'arco i→j
+
+            # Arco diretto i→j nel grafo residuo
+            # Esiste se c'è ancora capacità disponibile
             if u - x > 0:
                 R[i][j] = u - x
-            # arco inverso
+
+            # Arco inverso j→i nel grafo residuo
+            # Esiste se c'è flusso da poter ridurre
             if x > 0:
                 R[j][i] = x
 
@@ -86,62 +92,93 @@ def ford_fulkerson_labeling(G, s, t):
     - iterations: lista di dettagli per ogni iterazione
     - S, T: taglio minimo
     """
+    # Inizializza il valore del flusso massimo a 0
     value = 0
+
+    # Lista per memorizzare i dettagli di ogni iterazione
     iterations = []
     S = None
     T = None
 
     while True:
+        # Dizionario dei predecessori: pred[nodo] = predecessore di 'nodo'
+        # Se pred[j] > 0: arco diretto pred[j]→j
+        # Se pred[j] < 0: arco inverso j→|pred[j]|
         pred = {}
+
+        # delta[j] = indica il massimo aumento consentito nel cammino da s fino a j
         delta = {s: float("inf")}
         expanded = set()
+
+        # Coda per la BFS (Breadth-First Search)
+        # BFS invece di DFS per trovare cammini più "corti"
         queue = [s]
 
-        # fase di etichettamento
+        # Fase di etichettamento
         while queue and t not in pred:
             i = queue.pop(0)
             expanded.add(i)
 
-            # archi diretti
+            # ESPLORAZIONE ARCHI DIRETTI i→j
+            # Corrispondono ad archi nel grafo originale con capacità residua
             for j in G.cap[i]:
+                # Considera l'arco i→j solo se:
+                # 1. j non è stato ancora etichettato (j not in pred)
+                # 2. C'è capacità residua disponibile (flow[i][j] < cap[i][j])
                 if j not in pred and G.flow[i][j] < G.cap[i][j]:
                     pred[j] = i
                     delta[j] = min(delta[i], G.cap[i][j] - G.flow[i][j])
                     queue.append(j)
 
-            # archi inversi
+            # ESPLORAZIONE ARCHI INVERSI j→i (nel grafo residuo)
+            # Corrispondono a flusso che può essere ridotto
             for j in G.cap:
+                # Verifica se esiste l'arco j→i nel grafo originale
+                # e se ha flusso positivo (che può essere ridotto)
                 if i in G.cap[j] and j not in pred and G.flow[j][i] > 0:
                     pred[j] = -i
                     delta[j] = min(delta[i], G.flow[j][i])
                     queue.append(j)
 
+        # CONDIZIONE DI TERMINAZIONE:
+        # Se t non è stato etichettato, non esiste un cammino aumentante
         if t not in pred:
             break
 
+        # CALCOLO DEL FLUSSO DA INVIARE:
         d = delta[t]
+
+        # Aggiorna il valore totale del flusso
         value += d
 
-        # ricostruzione cammino
+        # RICOSTRUZIONE DEL CAMMINO AUMENTANTE:
+        # Risale dal pozzo t alla sorgente s seguendo i predecessori
         path = [t]
         j = t
         while j != s:
             j = abs(pred[j])
             path.append(j)
+
+        # Inverti il cammino per averlo da s a t
         path.reverse()
 
-        # aggiornamento flussi
+        # AGGIORNAMENTO DEI FLUSSI:
+        # Risale di nuovo dal pozzo alla sorgente per aggiornare i fluss
         j = t
         while j != s:
+            # Ottieni il predecessore (con il segno)
             p = pred[j]
             i = abs(p)
             if p > 0:
+                # ARCO DIRETTO i→j: aumenta il flusso di d
                 G.flow[i][j] += d
             else:
+                # ARCO INVERSO j→i: riduci il flusso di d
+                # (equivalente a "annullare" parte del flusso)
                 G.flow[j][i] -= d
             j = i
 
-
+        # Salva i dettagli di questa iterazione:
         iterations.append({
             "labels": {
                 v: {
@@ -152,9 +189,10 @@ def ford_fulkerson_labeling(G, s, t):
             },
             "path": path,
             "delta": d,
+            # Copia del flusso corrente (per visualizzazione)
             "flow": {i: dict(G.flow[i]) for i in G.flow}
         })
-    # calcolo taglio minimo residuo
+    # CALCOLO DEL TAGLIO MINIMO
     S, T = min_cut_from_residual(G, s)
 
     return value, iterations, S, T
