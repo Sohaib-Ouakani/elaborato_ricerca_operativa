@@ -26,13 +26,14 @@ def build_example_graph():
     - G: oggetto Graph contenente il grafo di esempio
     """
     G = Graph()
-    # Example 1
+    # Esempio 1 Slide
     # G.add_edge(1, 2, 2)
     # G.add_edge(1, 3, 4)
     # G.add_edge(2, 3, 3)
     # G.add_edge(2, 4, 1)
     # G.add_edge(3, 4, 5)
 
+    # Esempio 2 slide
     # G.add_edge(1, 2, 14)
     # G.add_edge(1, 4, 23)
     # G.add_edge(2, 4, 9)
@@ -48,26 +49,40 @@ def build_example_graph():
     # G.add_edge(8, 9, 20)
     # G.add_edge(7, 9, 15)
 
-    #esempio esame
-    G.add_edge(1, 2,5)
-    G.add_edge(1, 3,9)
-    G.add_edge(3, 2,5)
-    G.add_edge(3, 4,2)
-    G.add_edge(3, 6,4)
-    G.add_edge(2, 4,2)
-    G.add_edge(2, 5,5)
-    G.add_edge(4, 5,2)
-    G.add_edge(4, 6,2)
-    G.add_edge(5, 6,3)
-    G.add_edge(5, 7,2)
-    G.add_edge(5, 8,5)
-    G.add_edge(6, 7,2)
-    G.add_edge(6, 9,4)
-    G.add_edge(7, 8,3)
-    G.add_edge(7, 9,3)
-    G.add_edge(8, 10,7)
-    G.add_edge(9, 8,6)
-    G.add_edge(9, 10,7)
+    # Esempio esame 2023/09/14
+    # G.add_edge(1, 2,5)
+    # G.add_edge(1, 3,9)
+    # G.add_edge(3, 2,5)
+    # G.add_edge(3, 4,2)
+    # G.add_edge(3, 6,4)
+    # G.add_edge(2, 4,2)
+    # G.add_edge(2, 5,5)
+    # G.add_edge(4, 5,2)
+    # G.add_edge(4, 6,2)
+    # G.add_edge(5, 6,3)
+    # G.add_edge(5, 7,2)
+    # G.add_edge(5, 8,5)
+    # G.add_edge(6, 7,2)
+    # G.add_edge(6, 9,4)
+    # G.add_edge(7, 8,3)
+    # G.add_edge(7, 9,3)
+    # G.add_edge(8, 10,7)
+    # G.add_edge(9, 8,6)
+    # G.add_edge(9, 10,7)
+
+    # Esame 2023/06/06
+    G.add_edge(1, 2, 2)
+    G.add_edge(1, 3, 7)
+    G.add_edge(2, 3, 3)
+    G.add_edge(2, 5, 4)
+    G.add_edge(3, 4, 5)
+    G.add_edge(3, 6, 2)
+    G.add_edge(4, 2, 4)
+    G.add_edge(4, 5, 2)
+    G.add_edge(4, 6, 2)
+    G.add_edge(6, 5, 4)
+    G.add_edge(6, 7, 2)
+    G.add_edge(5, 7, 5)
     return G
 
 def latex_boilerplate():
@@ -101,7 +116,7 @@ if __name__ == "__main__":
     # ========================================================================
     print("=== FORD–FULKERSON (GRAFO RESIDUO) ===")
     G1 = build_example_graph()
-    value, iters, S, T = ford_fulkerson_residual(G1, 1, 10)
+    value, iters, S, T = ford_fulkerson_residual(G1, 1, 7)
 
     print("Flusso massimo:", value, "\nS: ", S, "T: ", T)
     latex_boilerplate()
@@ -118,7 +133,7 @@ if __name__ == "__main__":
     # ========================================================================
     print("\n=== FORD–FULKERSON (ETICHETTAMENTO) ===")
     G2 = build_example_graph()
-    value, iters, S, T = ford_fulkerson_labeling(G2, 1, 10)
+    value, iters, S, T = ford_fulkerson_labeling(G2, 1, 7)
 
     print("Flusso massimo:", value, "\nS: ", S, "T: ", T)
     latex_boilerplate()
