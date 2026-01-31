@@ -2,7 +2,7 @@ from graph import Graph
 from ford_fulkerson.residual import ford_fulkerson_residual
 from ford_fulkerson.labeling import ford_fulkerson_labeling
 from latex import tikz_graph, tikz_graph_labels
-
+import time
 
 def build_example_graph():
     """
@@ -116,9 +116,11 @@ if __name__ == "__main__":
     # ========================================================================
     print("=== FORD–FULKERSON (GRAFO RESIDUO) ===")
     G1 = build_example_graph()
+    start = time.perf_counter()
     value, iters, S, T = ford_fulkerson_residual(G1, 1, 7)
+    end = time.perf_counter()
 
-    print("Flusso massimo:", value, "\nS: ", S, "T: ", T)
+    print("Flusso massimo:", value, "\nS: ", S, "T: ", T, f"tempo esecuzione: {end - start:.6f} secondi")
     latex_boilerplate()
     for k, it in enumerate(iters, 1):
         print(f"\nIterazione {k}")
@@ -133,9 +135,11 @@ if __name__ == "__main__":
     # ========================================================================
     print("\n=== FORD–FULKERSON (ETICHETTAMENTO) ===")
     G2 = build_example_graph()
+    start = time.perf_counter()
     value, iters, S, T = ford_fulkerson_labeling(G2, 1, 7)
+    end = time.perf_counter()
 
-    print("Flusso massimo:", value, "\nS: ", S, "T: ", T)
+    print("Flusso massimo:", value, "\nS: ", S, "T: ", T, f"tempo esecuzione: {end - start:.6f} secondi")
     latex_boilerplate()
     for k, it in enumerate(iters, 1):
         print(f"\nIterazione {k}")

@@ -108,6 +108,7 @@ def ford_fulkerson_labeling(G, s, t):
 
         # delta[j] = indica il massimo aumento consentito nel cammino da s fino a j
         delta = {s: float("inf")}
+        pred[s] = s
         expanded = set()
 
         # Coda per la BFS (Breadth-First Search)
@@ -125,7 +126,7 @@ def ford_fulkerson_labeling(G, s, t):
                 # Considera l'arco i→j solo se:
                 # 1. j non è stato ancora etichettato (j not in pred)
                 # 2. C'è capacità residua disponibile (flow[i][j] < cap[i][j])
-                if j not in pred and G.flow[i][j] < G.cap[i][j]:
+                if j != s and j not in pred and G.flow[i][j] < G.cap[i][j]:
                     pred[j] = i
                     delta[j] = min(delta[i], G.cap[i][j] - G.flow[i][j])
                     queue.append(j)
@@ -135,7 +136,7 @@ def ford_fulkerson_labeling(G, s, t):
             for j in G.cap:
                 # Verifica se esiste l'arco j→i nel grafo originale
                 # e se ha flusso positivo (che può essere ridotto)
-                if i in G.cap[j] and j not in pred and G.flow[j][i] > 0:
+                if i in G.cap[j] and j != s and j not in pred and G.flow[j][i] > 0:
                     pred[j] = -i
                     delta[j] = min(delta[i], G.flow[j][i])
                     queue.append(j)
