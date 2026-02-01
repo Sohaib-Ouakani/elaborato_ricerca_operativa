@@ -8,14 +8,14 @@ def build_residual_graph(G):
     rappresenta la "capacità residua" disponibile su ogni arco, considerando
     il flusso già presente.
 
-    Per ogni arco (i,j) del grafo originale, il grafo residuo può contenere:
+    Per ogni arco (i, j) del grafo originale, il grafo residuo può contenere:
 
     1. ARCO DIRETTO (i→j) con capacità residua = u_ij - x_ij
        - Rappresenta quanto flusso AGGIUNTIVO possiamo ancora inviare
        - Esiste solo se u_ij - x_ij > 0 (c'è ancora capacità disponibile)
 
     2. ARCO INVERSO (j→i) con capacità residua = x_ij
-       - Rappresenta quanto flusso possiamo "annullare" riducendo il flusso su (i,j)
+       - Rappresenta quanto flusso possiamo "annullare" riducendo il flusso su (i, j)
        - Esiste solo se x_ij > 0 (c'è flusso da poter ridurre)
 
     Parametri:
@@ -100,12 +100,12 @@ def find_augmenting_path(R, s, t):
 
 def min_cut_from_residual(R, s):
     """
-    Calcola il taglio minimo (S,T) a partire dal grafo residuo R.
+    Calcola il taglio minimo (S, T) a partire dal grafo residuo R.
 
     Il TEOREMA DEL TAGLIO MINIMO - FLUSSO MASSIMO afferma che:
     "Il valore del flusso massimo è uguale alla capacità del taglio minimo"
 
-    Un TAGLIO (S,T) è una partizione dei nodi in due insiemi:
+    Un TAGLIO (S, T) è una partizione dei nodi in due insiemi:
     - S contiene la sorgente s
     - T contiene il pozzo t
     - Nessun nodo appartiene sia a S che a T
@@ -153,7 +153,7 @@ def ford_fulkerson_residual(G, s, t):
     PROBLEMA DEL FLUSSO MASSIMO:
     Dato un grafo diretto con capacità sugli archi, una sorgente s e un pozzo t,
     trovare il massimo flusso che può essere inviato da s a t rispettando:
-    1. Vincoli di capacità: 0 ≤ x_ij ≤ u_ij per ogni arco (i,j)
+    1. Vincoli di capacità: 0 ≤ x_ij ≤ u_ij per ogni arco (i, j)
     2. Conservazione del flusso: per ogni nodo (eccetto s e t),
        il flusso in entrata = flusso in uscita
 
@@ -184,8 +184,6 @@ def ford_fulkerson_residual(G, s, t):
 
     # Lista per memorizzare i dettagli di ogni iterazione
     iterations = []
-    S = None
-    T = None
 
     while True:
         # PASSO 1: Costruisci il grafo residuo basato sul flusso corrente
@@ -201,15 +199,15 @@ def ford_fulkerson_residual(G, s, t):
             break
 
         # PASSO 3: Aggiorna il flusso lungo il cammino aumentante
-        # Itera su ogni arco (i,j) del cammino
+        # Itera su ogni arco (i, j) del cammino
         for i, j in zip(path[:-1], path[1:]):
-            # Verifica se (i,j) è un arco DIRETTO nel grafo originale
+            # Verifica se (i, j) è un arco DIRETTO nel grafo originale
             if j in G.cap[i]:
                 # Aumenta il flusso sull'arco diretto di delta
                 G.flow[i][j] += delta
             else:
                 # usando l'arco INVERSO nel grafo residuo
-                # Riduci il flusso sull'arco (j,i) di delta
+                # Riduci il flusso sull'arco (j, i) di delta
                 G.flow[j][i] -= delta
 
         # PASSO 4: Aggiorna il valore totale del flusso

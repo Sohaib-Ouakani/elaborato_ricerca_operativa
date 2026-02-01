@@ -2,7 +2,7 @@ from collections import defaultdict
 
 def min_cut_from_residual(G, s):
     """
-    Calcola il taglio minimo (S,T) a partire dal grafo G e dal suo flusso corrente.
+    Calcola il taglio minimo (S, T) a partire dal grafo G e dal suo flusso corrente.
 
     Questa funzione è simile a quella in residual.py, ma costruisce il grafo
     residuo internamente invece di riceverlo come parametro.
@@ -62,7 +62,7 @@ def ford_fulkerson_labeling(G, s, t):
 
     Questa è una variante dell'algoritmo di Ford-Fulkerson che usa una tecnica
     chiamata "etichettamento" (labeling) invece di costruire esplicitamente
-    il grafo residuo ad ogni iterazione.
+    il grafo residuo a ogni iterazione.
 
     METODO DELL'ETICHETTAMENTO:
     Invece di costruire il grafo residuo, questa versione etichetta i nodi
@@ -97,8 +97,6 @@ def ford_fulkerson_labeling(G, s, t):
 
     # Lista per memorizzare i dettagli di ogni iterazione
     iterations = []
-    S = None
-    T = None
 
     while True:
         # Dizionario dei predecessori: pred[nodo] = predecessore di 'nodo'
