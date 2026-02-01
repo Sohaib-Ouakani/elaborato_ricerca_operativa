@@ -37,19 +37,6 @@ def tikz_graph(G, highlight_path=None, flows=None):
     #     9: (8, 0),
     # }
 
-    # positions = {
-    #     1: (0, 0),
-    #     2: (1.5, 2),
-    #     3: (1.5, -2),
-    #     4: (3, 0),
-    #     5: (4.5, 2),
-    #     6: (4.5, -2),
-    #     7: (6, 0),
-    #     8: (7.5, 2),
-    #     9: (7.5, -2),
-    #     10: (9, 0),
-    # }
-
     positions = {
         1: (0, 0),
         2: (1.5, 2),
@@ -62,6 +49,17 @@ def tikz_graph(G, highlight_path=None, flows=None):
         9: (7.5, -2),
         10: (9, 0),
     }
+
+    # per esercizio esame 2
+    # positions = {
+    #     1: (0, 0),
+    #     2: (1.5, 2),
+    #     3: (1.5, -2),
+    #     4: (3, 0),
+    #     5: (4.5, 2),
+    #     6: (4.5, -2),
+    #     7: (6, 0),
+    # }
 
     s = "\\begin{tikzpicture}[>=Stealth]\n"
 
@@ -139,6 +137,17 @@ def tikz_graph_labels(G, labels=None, flows=None):
         9: (7.5, -2),
         10: (9, 0),
     }
+
+    # per esercizio esame 2
+    # positions = {
+    #     1: (0, 0),
+    #     2: (1.5, 2),
+    #     3: (1.5, -2),
+    #     4: (3, 0),
+    #     5: (4.5, 2),
+    #     6: (4.5, -2),
+    #     7: (6, 0),
+    # }
 
     s = "\\begin{tikzpicture}[>=Stealth]\n"
 

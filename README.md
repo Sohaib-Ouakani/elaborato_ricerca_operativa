@@ -2,13 +2,13 @@
 
 ## PANORAMICA GENERALE
 
-Questo progetto implementa l'algoritmo di Ford-Fulkerson per risolvere il problema
-del FLUSSO MASSIMO su grafi diretti con capacità.
+Questo progetto implementa in Python l'algoritmo di Ford-Fulkerson per risolvere il problema
+del FLUSSO MASSIMO su grafi orientati con capacità.
 
 ### PROBLEMA DEL FLUSSO MASSIMO
 
 Dato:
-- Un grafo diretto G = (V, A)
+- Un grafo orientato G = (V, A)
 - Capacità u_ij su ogni arco (i,j)
 - Un nodo sorgente s
 - Un nodo pozzo t
@@ -106,8 +106,6 @@ Algoritmo principale di Ford-Fulkerson.
    c. Aggiorna il grafo residuo
 3. RETURN flusso massimo
 ```
-
-**Complessità:** O(|A| * valore_flusso_massimo) con DFS
 
 ---
 
@@ -287,7 +285,7 @@ Non esiste più un cammino aumentante da s a t nel grafo residuo.
 
 **Questo implica:**
 1. Il flusso corrente è il flusso massimo
-2. Il taglio (S,T) è il taglio minimo
+2. Il taglio (S,T) è il taglio di capacità minima
 3. Capacità(S,T) = Flusso(s,t)
 
 ---
@@ -296,17 +294,7 @@ Non esiste più un cammino aumentante da s a t nel grafo residuo.
 
 1. **Reti di trasporto:** massimizzare il flusso di merci/veicoli
 2. **Reti di comunicazione:** massimizzare la banda disponibile
-3. **Matching bipartito:** trovare accoppiamenti massimi
-4. **Image segmentation:** taglio minimo per segmentare immagini
-5. **Network reliability:** trovare i collegamenti critici
-
----
-
-## VARIANTI DEl PROBLEMA
-
-- **Flusso a costo minimo:** minimizzare il costo oltre al flusso
-- **Multi-commodity flow:** più sorgenti/pozzi contemporaneamente
-- **Flusso con domande/offerte:** vincoli su nodi invece che archi
+3. **Network reliability:** trovare i collegamenti critici
 
 ---
 
@@ -314,7 +302,3 @@ Non esiste più un cammino aumentante da s a t nel grafo residuo.
 
 Questo progetto fornisce un'implementazione completa e commentata dell'algoritmo
 di Ford-Fulkerson in due varianti, con visualizzazione LaTeX/TikZ integrata.
-
-**Possibili miglioramenti:**
-- Supportare grafi da file
-- Ottimizzare la generazione LaTeX per grafi grandi
