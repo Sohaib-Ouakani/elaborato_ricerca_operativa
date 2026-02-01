@@ -102,45 +102,43 @@ def latex_boilerplate():
 
     \\tikzset{every picture/.style={>=Stealth, x=1.6cm, y=1.2cm}}
 
-    \\title{ricerca_operativa}
-    \\author{}
+    \\title{Dettaglio risoluzione grafo}
+    \\author{Ouakani Sohaib}
     \\date{January 2026}
 
     \\begin{document}\n""")
 
 
 if __name__ == "__main__":
-
+    latex_boilerplate()
     # ========================================================================
     # PARTE 1: FORD-FULKERSON CON GRAFO RESIDUO
     # ========================================================================
-    print("=== FORD–FULKERSON (GRAFO RESIDUO) ===")
+    print("\section{FORD–FULKERSON (GRAFO RESIDUO)}")
     G1 = build_example_graph()
     start = time.perf_counter()
     value, iters, S, T = ford_fulkerson_residual(G1, 1, 10)
     end = time.perf_counter()
 
-    print("Flusso massimo:", value, "\nS: ", S, "T: ", T, f"tempo esecuzione: {end - start:.6f} secondi")
-    latex_boilerplate()
+    print("Flusso massimo:", value, "\\\\ S: ", S, "\\\\ T: ", T, f"\\\\ tempo esecuzione: {end - start:.6f} secondi")
     for k, it in enumerate(iters, 1):
         print(f"\nIterazione {k}")
         print("Cammino:", it["path"])
         print("Delta:", it["delta"])
         print("\\\\")
         print(tikz_graph(G1, it["path"], it["flow"]))
-    print("\\end{document}\n")
 
+    print("\n")
     # ========================================================================
     # PARTE 2: FORD-FULKERSON CON ETICHETTAMENTO
     # ========================================================================
-    print("\n=== FORD–FULKERSON (ETICHETTAMENTO) ===")
+    print("\section{FORD–FULKERSON (ETICHETTAMENTO)}")
     G2 = build_example_graph()
     start = time.perf_counter()
     value, iters, S, T = ford_fulkerson_labeling(G2, 1, 10)
     end = time.perf_counter()
 
-    print("Flusso massimo:", value, "\nS: ", S, "T: ", T, f"tempo esecuzione: {end - start:.6f} secondi")
-    latex_boilerplate()
+    print("Flusso massimo:", value, "\\\\ S: ", S, "\\\\ T: ", T, f"\\\\ tempo esecuzione: {end - start:.6f} secondi")
     for k, it in enumerate(iters, 1):
         print(f"\nIterazione {k}")
         print("Cammino:", it["path"])
