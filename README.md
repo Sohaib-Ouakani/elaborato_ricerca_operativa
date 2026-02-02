@@ -47,7 +47,7 @@ Rappresenta un grafo diretto con capacità e flussi.
 - `flow[i][j]`: flusso corrente sull'arco da i a j
 - `nodes`: set di tutti i nodi del grafo
 
-**Invariante importante:**
+**Dettaglio importante:**
 Se esiste l'arco (i,j), deve esistere anche l'arco (j,i) (eventualmente con capacità 0).
 Questo è necessario per l'algoritmo di Ford-Fulkerson.
 
