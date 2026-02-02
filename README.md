@@ -140,7 +140,7 @@ Ogni nodo j raggiunto viene etichettato con:
 
 **Fase di etichettamento (BFS):**
 ```
-1. Inizializza: pred = {}, delta[s] = ∞
+1. Inizializza: pred[s] = s, delta[s] = ∞
 2. Coda = [s]
 3. WHILE coda non vuota AND t non etichettato:
    a. Estrai nodo i dalla coda
