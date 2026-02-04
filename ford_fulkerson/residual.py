@@ -202,7 +202,7 @@ def ford_fulkerson_residual(G, s, t):
         # Itera su ogni arco (i, j) del cammino
         for i, j in zip(path[:-1], path[1:]):
             # Verifica se (i, j) è un arco DIRETTO nel grafo originale
-            if j in G.cap[i]:
+            if G.cap[i][j] > 0:
                 # Aumenta il flusso sull'arco diretto di delta
                 G.flow[i][j] += delta
             else:
