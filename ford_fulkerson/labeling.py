@@ -143,6 +143,20 @@ def ford_fulkerson_labeling(G, s, t):
         # CONDIZIONE DI TERMINAZIONE:
         # Se t non è stato etichettato, non esiste un cammino aumentante
         if t not in pred:
+            # Per ottenere anche una rappresentazione del labeling che "fallisce"
+            iterations.append({
+                "labels": {
+                    v: {
+                        "pred": pred[v],
+                        "delta": delta[v]
+                    }
+                    for v in pred
+                },
+                "path": path,
+                "delta": d,
+                # Copia del flusso corrente (per visualizzazione)
+                "flow": {i: dict(G.flow[i]) for i in G.flow}
+            })
             break
 
         # CALCOLO DEL FLUSSO DA INVIARE:
