@@ -98,7 +98,7 @@ def find_augmenting_path(R, s, t):
 
     return None, 0
 
-def min_cut_from_residual(R, s):
+def min_cut_from_residual(G, s):
     """
     Calcola il taglio minimo (S, T) a partire dal grafo residuo R.
 
@@ -126,6 +126,7 @@ def min_cut_from_residual(R, s):
     - S: set di nodi raggiungibili da s (contiene s)
     - T: set di nodi non raggiungibili da s (contiene t)
     """
+    R = build_residual_graph(G)
     visited = set()
 
     # Stack per la DFS, inizializzato con la sorgente
@@ -141,7 +142,7 @@ def min_cut_from_residual(R, s):
                 stack.append(nxt)
 
     S = visited
-    T = set(R.keys()) - S
+    T = set(G.cap.keys()) - S
     return S, T
 
 
@@ -223,7 +224,6 @@ def ford_fulkerson_residual(G, s, t):
         })
 
     # Calcola il taglio minimo
-    R_after = build_residual_graph(G)
-    S, T = min_cut_from_residual(R_after, s)
+    S, T = min_cut_from_residual(G, s)
 
     return value, iterations, S, T

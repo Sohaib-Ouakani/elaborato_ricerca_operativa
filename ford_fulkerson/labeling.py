@@ -110,16 +110,14 @@ def ford_fulkerson_labeling(G, s, t):
         # fisso il predecessore della sorgente a se stesso
         pred[s] = s
 
-        expanded = set()
-
         # Coda per la BFS (Breadth-First Search)
         # BFS invece di DFS per trovare cammini più "corti"
+        # Questa coda rappresenta tutti i nodi etichettati non espansi
         queue = [s]
 
         # Fase di etichettamento
         while queue and t not in pred:
             i = queue.pop(0)
-            expanded.add(i)
 
             # ESPLORAZIONE ARCHI DIRETTI i→j
             # Corrispondono ad archi nel grafo originale con capacità residua
