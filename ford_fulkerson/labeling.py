@@ -132,10 +132,10 @@ def ford_fulkerson_labeling(G, s, t):
 
             # ESPLORAZIONE ARCHI INVERSI j→i (nel grafo residuo)
             # Corrispondono a flusso che può essere ridotto
-            for j in G.cap[i]:
+            for j in G.cap:
                 # Verifica se esiste l'arco j→i nel grafo originale
                 # e se ha flusso positivo (che può essere ridotto)
-                if j not in pred and G.flow[j][i] > 0:
+                if i in G.cap[j] and j not in pred and G.flow[j][i] > 0:
                     pred[j] = -i
                     delta[j] = min(delta[i], G.flow[j][i])
                     queue.append(j)
